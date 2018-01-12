@@ -212,6 +212,16 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   @Output() layerClick: EventEmitter<DataMouseEvent> = new EventEmitter<DataMouseEvent>();
 
   /**
+   * This event is fired when a feature in the layer is receiving a mouse over event.
+   */
+  @Output() layerMouseOver: EventEmitter<DataMouseEvent> = new EventEmitter<DataMouseEvent>();
+
+  /**
+   * This event is fired when a feature in the layer is receiving a mouse out event.
+   */
+  @Output() layerMouseOut: EventEmitter<DataMouseEvent> = new EventEmitter<DataMouseEvent>();
+
+  /**
    * The geoJson to be displayed
    */
   @Input() geoJson: Object | string | null = null;
@@ -235,6 +245,8 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   private _addEventListeners() {
     const listeners = [
       { name: 'click', handler: (ev: DataMouseEvent) => this.layerClick.emit(ev) },
+      { name: 'mouseover', handler: (ev: DataMouseEvent) => this.layerMouseOver.emit(ev) },
+      { name: 'mouseout', handler: (ev: DataMouseEvent) => this.layerMouseOut.emit(ev) },
     ];
     listeners.forEach((obj) => {
       const os = this._manager.createEventObservable(obj.name, this).subscribe(obj.handler);
